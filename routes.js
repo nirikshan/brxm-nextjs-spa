@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 
-const next = require('next');
-const { createServer } = require('http');
-const routes = require('./routes');
+const routes = require('next-routes')();
 
-const app = next({ dev: process.env.NODE_ENV !== 'production' });
-const handler = routes.getRequestHandler(app);
+routes
+  .add('index', '/(.*)');
 
-app.prepare().then(() => {
-  createServer(handler).listen(process.env.PORT || 3000);
-});
+module.exports = routes;
