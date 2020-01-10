@@ -10,6 +10,16 @@ Copy `.env.dist` file to `.env` and customize it to contain a correct `PUBLIC_UR
 PUBLIC_URL=http://localhost:3000
 ```
 
+In the same `.env` file, also specify the brXM instance to fetch the page model from:
+```
+LIVE_API_BASE_URL=http://localhost:8080/site/api/page
+LIVE_BR_BASE_URL=http://localhost:8080/site
+LIVE_SPA_BASE_URL=
+PREVIEW_API_BASE_URL=http://localhost:8080/site/_cmsinternal/api/page
+PREVIEW_BR_BASE_URL=http://localhost:8080/site/_cmsinternal
+PREVIEW_SPA_BASE_URL=/site/_cmsinternal
+```
+
 Then, build and run the Next.js app as followed:
 
 ```bash
