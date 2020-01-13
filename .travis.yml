@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - '12'
+
+install:
+  - npm install
+
+script:
+  - npm run build
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: uDjdDknvo23EIBi4gJEWOdadOgYqRxhkwFcvanixFbYhK7dYf0qHagfyTEnJXBVIrTvkCXqSXyGK8WhIf4QDE/FyvERh60ogr/TZorbrB6K61epZ9Ly54u+AAfsCQ6XPbIEr50ldyDOL1hSL9Rz/PCsdMMc5PvMfNJDeQVg+Xvfs3US8AHtaJbVyzDCmmHa4mwB5YaoPkquImFplGYJMEyBeiU5FRrEM4NsGt6p0mK6Brh97n2hWdqCPlLFt+7ZUdLPaRZgYR6ogLfHWjddsPnNMK8QM/QWJFfaYGebr8pyh9TMFweJpfvt1QxGmNiaaYKn3XDlBLIHzqU0o1top6KelktC/474E1lRcS8lqAnIIY9JESzlBGysaaZnRJg39UC2y1nnQ9M2cUAdAgo7pPXgy54jBqh9o/r253Cach8u7PRxmxrSnvK2FxcjTtk43fUQjpS1df1xJDHm6RzwaCYlZIylPuErcB+3Ms8GEZEP5b8JlEu/Vg4Je/2eS/9iGP1FN9jhOaup3FiJhk1/ujuYiM+Z/tughZ1NE28cqfmhr3HgynPXwWU+UyQ2RaBsBIcIFJ5v+/zfJzLrMYlq4NBGBGA3D2PHkQ8Pa1TXsJugc47LR+37RsPh/uMAy/mDpCUCqv9mvbvrgEf9YITDADouhUU31AKT+uULvPBOLvTA=
+  app: brxm-nextjs-spa
+  on:
+    tags: true
+    branch: master
