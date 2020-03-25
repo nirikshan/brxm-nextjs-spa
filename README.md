@@ -5,19 +5,15 @@ The app uses unversal framework [Next.js](https://github.com/zeit/next.js) for c
 
 ## Configuration
 
-Copy `.env.dist` file to `.env` and customize it to contain a correct `PUBLIC_URL` path, for example:
+Copy `.env.dist` file to `.env` and customize it to contain a correct `PUBLIC_URL` path:
 ```
-PUBLIC_URL=http://localhost:3000
+PUBLIC_URL=
 ```
 
 In the same `.env` file, also specify the brXM instance to fetch the page model from:
 ```
-LIVE_API_BASE_URL=http://localhost:8080/site/api/page
-LIVE_BR_BASE_URL=http://localhost:8080/site
-LIVE_SPA_BASE_URL=
-PREVIEW_API_BASE_URL=http://localhost:8080/site/_cmsinternal/api/page
-PREVIEW_BR_BASE_URL=http://localhost:8080/site/_cmsinternal
-PREVIEW_SPA_BASE_URL=/site/_cmsinternal
+API_BASE_URL=http://localhost:8080/site/api/page
+CMS_BASE_URL=http://localhost:8080/site
 ```
 
 Then, build and run the Next.js app as followed:

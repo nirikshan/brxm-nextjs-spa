@@ -24,8 +24,6 @@ import { Configuration, Page, initialize } from '@bloomreach/spa-sdk';
 import { Banner, Content, Menu, NewsList } from '../components';
 import routes from '../routes';
 
-axios.interceptors.request.use(config => ({ ...config, withCredentials: true }));
-
 const { Link } = routes;
 const { publicRuntimeConfig } = getConfig();
 
@@ -35,34 +33,39 @@ interface IndexProps {
 }
 
 export default class Index extends React.Component<IndexProps> {
+  private static visitor?: Configuration['visitor'];
+
   static async getInitialProps(context: NextPageContext) {
     const config = {
-      options: {
-        live: {
-          apiBaseUrl: publicRuntimeConfig.liveApiBaseUrl,
-          cmsBaseUrl: publicRuntimeConfig.liveBrBaseUrl,
-          spaBaseUrl: publicRuntimeConfig.liveSpaBaseUrl,
-        },
-        preview: {
-          apiBaseUrl: publicRuntimeConfig.previewApiBaseUrl,
-          cmsBaseUrl: publicRuntimeConfig.previewBrBaseUrl,
-          spaBaseUrl: publicRuntimeConfig.previewSpaBaseUrl,
-        },
-      },
+      apiBaseUrl: publicRuntimeConfig.apiBaseUrl,
+      cmsBaseUrl: publicRuntimeConfig.cmsBaseUrl,
+      spaBaseUrl: publicRuntimeConfig.spaBaseUrl,
       request: { path: context.asPath || '' },
+      visitor: Index.visitor,
     };
     const page = await initialize({
       ...config,
       httpClient: axios,
-      request: {
-        ...config.request,
-        headers: context.req && context.req.headers && context.req.headers.cookie
-          ? { cookie: context.req.headers.cookie }
-          : undefined,
-      },
+      request: { ...context.req, ...config.request },
     });
+    config.visitor = page.getVisitor();
+
+    if (context.res && config.visitor) {
+      context.res.setHeader(
+        'Set-Cookie',
+        `${config.visitor.header}=${config.visitor.id}; Max-Age=${365 * 24 * 60 * 60}; Path=/; HttpOnly`,
+      );
+    }
+
+    // Limit the number of hosts that are allowed to embed your application.
+    // @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors
+    context?.res?.setHeader('Content-Security-Policy', `frame-ancestors 'self' ${new URL(config.cmsBaseUrl).host}`);
 
     return { config, page };
+  }
+
+  componentDidMount() {
+    Index.visitor = this.props.config.visitor;
   }
 
   render() {
